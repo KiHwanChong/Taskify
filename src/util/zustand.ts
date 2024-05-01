@@ -203,3 +203,45 @@ export const useIsCardFormatted = create<IsCardFormatted>((set) => ({
     set({ isCardFormatted: isFormatted });
   },
 }));
+
+interface Inviter {
+  nickname: string;
+  email: string;
+  id: number;
+}
+
+interface InvitedDashboard {
+  title: string;
+  id: number;
+}
+
+export interface Invitation {
+  id: number;
+  inviter: Inviter;
+  dashboard: InvitedDashboard;
+}
+
+type InvitationList = {
+  invitationList: Invitation[];
+  setInvitationList: (invitations: Invitation[]) => void;
+  searchedInvitationList: Invitation[];
+  setSearchedInvitationList: (invitations: Invitation[]) => void;
+  removeInvitation: (invitationId: number) => void; // Add the removeInvitation function
+};
+
+export const useInvitationList = create<InvitationList>((set) => ({
+  invitationList: [],
+  setInvitationList: (invitations) => {
+    set({ invitationList: invitations });
+  },
+  searchedInvitationList: [],
+  setSearchedInvitationList: (invitations) => {
+    set({ searchedInvitationList: invitations });
+  },
+  removeInvitation: (invitationId) => {
+    set((state) => ({
+      invitationList: state.invitationList.filter((invitation) => invitation.id !== invitationId),
+      searchedInvitationList: state.searchedInvitationList.filter((invitation) => invitation.id !== invitationId),
+    }));
+  },
+}));

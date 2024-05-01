@@ -4,32 +4,14 @@ import putInvitation from '@/src/pages/api/putInvitationApi';
 import InvitationList from '@/src/components/mydashboard/table/InvitaionList';
 import Button from '@/src/components/common/button';
 import instance from '@/src/util/axios';
-import { useMyDashboardListStore } from '@/src/util/zustand';
+import { useMyDashboardListStore, useInvitationList } from '@/src/util/zustand';
 import useDashboardList from '@/src/hooks/useDashboardList';
 
-interface Inviter {
-  nickname: string;
-  email: string;
-  id: number;
-}
-
-interface Dashboard {
-  title: string;
-  id: number;
-}
-
-interface Invitation {
-  id: number;
-  inviter: Inviter;
-  dashboard: Dashboard;
-}
-
-interface InvitationTableProps {
-  invitations: Invitation[];
-  setInvitations: React.Dispatch<React.SetStateAction<Invitation[]>>;
-}
-
-const InvitationTable: React.FC<InvitationTableProps> = ({ invitations, setInvitations }) => {
+const InvitationTable = () => {
+  const invitations = useInvitationList((state) => state.invitationList);
+  const setInvitations = useInvitationList((state) => state.setInvitationList);
+  const removeInvitation = useInvitationList((state) => state.removeInvitation);
+  const searchedInvitations = useInvitationList((state) => state.searchedInvitationList);
   const [loading, setLoading] = useState(false);
   const [cursorId, setCursorId] = useState<number | null>(null);
   const [hasMore, setHasMore] = useState(true);
@@ -40,8 +22,7 @@ const InvitationTable: React.FC<InvitationTableProps> = ({ invitations, setInvit
     try {
       setLoading(true);
       await putInvitation(invitationId, accept);
-
-      setInvitations((currentInvitations) => currentInvitations.filter((invite) => invite.id !== invitationId));
+      removeInvitation(invitationId);
       const res = await instance.get('/dashboards?navigationMethod=pagination&page=1&size=5');
       console.log(res.data);
       setMyDashboardList(res.data.dashboards);
@@ -58,14 +39,14 @@ const InvitationTable: React.FC<InvitationTableProps> = ({ invitations, setInvit
 
     setLoading(true);
     try {
-      const response = await fetchInvitations(10, cursorId);
+      const response = await fetchInvitations(4, cursorId);
 
       const newInvitations =
         response?.invitations.filter((invitation) => !invitations.some((inv) => inv.id === invitation.id)) ?? [];
-
-      setInvitations((prevInvitations) => [...prevInvitations, ...newInvitations]);
+      const updatedInvitations = [...invitations, ...newInvitations];
+      setInvitations(updatedInvitations);
       setCursorId(response?.cursorId ?? null);
-      setHasMore(response?.invitations.length === 10 ?? false);
+      setHasMore(response?.invitations.length === 4 ?? false);
     } catch (error) {
       console.error(error);
     }
@@ -105,7 +86,7 @@ const InvitationTable: React.FC<InvitationTableProps> = ({ invitations, setInvit
         <p>수락 여부</p>
       </div>
       <div className="flex flex-col overflow-y-scroll h-340 tablet:h-190 mobile:h-300">
-        {invitations.map((invitation, index) => (
+        {(searchedInvitations.length > 0 ? searchedInvitations : invitations).map((invitation, index) => (
           <div key={invitation.id} ref={index === invitations.length - 1 ? observerRef : undefined}>
             <InvitationList
               nickname={invitation.dashboard.title}
