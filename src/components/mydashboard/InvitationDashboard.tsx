@@ -4,8 +4,10 @@ import MyDashboardList from '@/src/components/mydashboard/MyDashboardList';
 import InvitationTable from '@/src/components/mydashboard/table/';
 import { useInvitationList } from '@/src/util/zustand';
 import InvitationSearch from './table/InvitationSearch';
+import NoInvitation from './NoInvitation';
 
 const InvitationDashboard = () => {
+  const invitationList = useInvitationList((state) => state.invitationList);
   const setInvitations = useInvitationList((state) => state.setInvitationList);
   useEffect(() => {
     const fetchAndSetInvitations = async () => {
@@ -30,8 +32,14 @@ const InvitationDashboard = () => {
 
       <div className="max-w-1022 h-auto mx-40 my-40 py-32 rounded-lg bg-white mobile:mx-24 ">
         <h1 className="self-start pl-28 text-24 font-bold mobile:text-20">초대받은 대시보드</h1>
-        <InvitationSearch />
-        <InvitationTable />
+        {invitationList.length > 0 ? (
+          <>
+            <InvitationSearch />
+            <InvitationTable />
+          </>
+        ) : (
+          <NoInvitation />
+        )}
       </div>
     </div>
   );
