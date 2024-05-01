@@ -54,8 +54,8 @@ const Card = ({ id, src, title, date, profile, tags, onClick }: CardInfo) => {
     >
       <div className="flex mobile:flex-col tablet:flex-row flex-col justify:start items-center gap-12">
         {!!src && (
-          <div className="max-h-135 rounded-6 mobile:w-full tablet:w-90 w-full tablet:h-full mobile:h-full mobile:max-h-none overflow-hidden">
-            <Image src={src} width={700} height={700} alt="Card Image" className="object-cover rounded-6" priority />
+          <div className="rounded-6 mobile:w-full tablet:w-90 w-full tablet:h-full mobile:h-full mobile:max-h-none">
+            <Image src={src} width={700} height={700} alt="Card Image" className="rounded-6" priority />
           </div>
         )}
         <div className="w-full flex flex-col gap-10">
