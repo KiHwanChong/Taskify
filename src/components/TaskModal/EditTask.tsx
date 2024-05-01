@@ -15,6 +15,7 @@ import Modal from '../common/modal';
 import { CardData, Member } from './CreateTask';
 
 import Chip from '../common/chip';
+import ProfileImage from '../common/navigation/ProfileImage';
 
 interface EditTaskModalProps {
   openModal: boolean;
@@ -228,9 +229,7 @@ const EditTask: React.FC<EditTaskModalProps> = ({ openModal, handleModalClose, c
               >
                 {currentAssigneee ? (
                   <div className="flex flex-row items-center gap-8 px-16 py-10">
-                    {!!currentAssigneee?.profileImageUrl && (
-                      <img src={currentAssigneee?.profileImageUrl} className="w-28 h-28 rounded-99" alt="profile" />
-                    )}
+                    <ProfileImage src={currentAssigneee?.profileImageUrl} nickname={currentAssigneee?.nickname} />
                     <div>{currentAssigneee?.nickname}</div>
                   </div>
                 ) : (
@@ -274,9 +273,7 @@ const EditTask: React.FC<EditTaskModalProps> = ({ openModal, handleModalClose, c
                           });
                         }}
                       >
-                        {!!member?.profileImageUrl && (
-                          <img src={member?.profileImageUrl} className="w-28 h-28 rounded-99" alt="profile" />
-                        )}
+                        <ProfileImage src={member?.profileImageUrl} nickname={member?.nickname} />
                         {member?.nickname}
                       </button>
                     );

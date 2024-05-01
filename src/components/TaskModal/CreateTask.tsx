@@ -12,6 +12,7 @@ import Modal from '../common/modal';
 import Chip from '../common/chip';
 import TaskLabel from './TaskLabel';
 import Button from '../common/button';
+import ProfileImage from '../common/navigation/ProfileImage';
 
 interface CreateTaskModalProps {
   openModal: boolean;
@@ -30,13 +31,11 @@ export interface CardData {
   imageUrl?: string | null;
 }
 
-export type Member =
-  | {
-      nickname: string;
-      profileImageUrl?: string;
-      userId: number;
-    }
-  | undefined;
+export type Member = {
+  nickname: string;
+  profileImageUrl?: string;
+  userId: number;
+};
 
 const CreateTask: React.FC<CreateTaskModalProps> = ({ openModal, handleModalClose, dashboardId, columnId }) => {
   if (!openModal) return null;
@@ -129,10 +128,8 @@ const CreateTask: React.FC<CreateTaskModalProps> = ({ openModal, handleModalClos
               }}
             >
               {currentAssigneee ? (
-                <div className="flex flex-row justify-center gap-8">
-                  {!!currentAssigneee?.profileImageUrl && (
-                    <img src={currentAssigneee?.profileImageUrl} className="w-28 h-28 rounded-99" alt="profile" />
-                  )}
+                <div className="flex flex-row justify-center gap-8 items-center">
+                  <ProfileImage src={currentAssigneee.profileImageUrl} nickname={currentAssigneee.nickname} />
                   <div>{currentAssigneee?.nickname}</div>
                 </div>
               ) : (
@@ -162,27 +159,26 @@ const CreateTask: React.FC<CreateTaskModalProps> = ({ openModal, handleModalClos
                 >
                   이름을 입력해 주세요.
                 </button>
-                {memberData.map((member) => {
-                  return (
-                    <button
-                      key={member?.userId}
-                      className="flex flex-row gap-8 rounded-6 hover:bg-gray-fa p-8"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentAssigneee(totalMembers.find((item) => item.userId === member?.userId));
-                        setIsAssigneeOpen(false);
-                        setCreateData((prev) => {
-                          return { ...prev, assigneeUserId: member?.userId };
-                        });
-                      }}
-                    >
-                      {!!member?.profileImageUrl && (
-                        <img src={member?.profileImageUrl} className="w-28 h-28 rounded-99" alt="profile" />
-                      )}
-                      {member?.nickname}
-                    </button>
-                  );
-                })}
+                {memberData &&
+                  memberData.map((member) => {
+                    return (
+                      <button
+                        key={member.userId}
+                        className="flex gap-8 rounded-6 hover:bg-gray-fa p-8"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCurrentAssigneee(totalMembers.find((item) => item.userId === member.userId));
+                          setIsAssigneeOpen(false);
+                          setCreateData((prev) => {
+                            return { ...prev, assigneeUserId: member.userId };
+                          });
+                        }}
+                      >
+                        <ProfileImage src={member.profileImageUrl} nickname={member.nickname} />
+                        {member.nickname}
+                      </button>
+                    );
+                  })}
               </div>
             )}
           </div>

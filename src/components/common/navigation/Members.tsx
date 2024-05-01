@@ -3,7 +3,7 @@ import useWindowSize from '@/src/hooks/useWindowSize';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { getTotalMembers } from '@/src/pages/api/dashboardEditApi';
-import InitialImage from './InitialImage';
+import ProfileImage from './ProfileImage';
 
 const Members = () => {
   const { width } = useWindowSize();
@@ -28,18 +28,12 @@ const Members = () => {
     <div className="flex">
       {totalMembers.length > 1 &&
         visibleMembers?.map((member) => (
-          <div key={member.id}>
-            {member.profileImageUrl ? (
-              <div className="overflow-hidden w-30 h-30 rounded-99 -ml-8">
-                <img src={member.profileImageUrl} alt="profile" className="border-2 rounded-99 w-30 h-30 " />
-              </div>
-            ) : (
-              <InitialImage nickname={member.nickname} className="-ml-8" />
-            )}
+          <div key={member.id} className="-ml-8">
+            <ProfileImage src={member.profileImageUrl} nickname={member.nickname} />
           </div>
         ))}
       {remainingCount > 0 && (
-        <div className="border-2 z-1 w-30 h-30 bg-pink-bg text-pink rounded-99 -ml-8 flex items-center justify-center">
+        <div className="border-2 relative w-30 h-30 bg-pink-bg text-pink rounded-99 -ml-8 flex items-center justify-center">
           +{remainingCount}
         </div>
       )}

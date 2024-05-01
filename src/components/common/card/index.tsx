@@ -69,7 +69,7 @@ const Card = ({ id, src, title, date, profile, tags, onClick }: CardInfo) => {
               </div>
             )}
             <div className="flex flex-row justify-between content-center w-full">
-              {!!formattedDate && (
+              {formattedDate && (
                 <div className="flex flex-row gap-6">
                   <div className="w-18 h-18">
                     <Image src={calender} width={18} height={18} alt="date" className="inline-block" />
@@ -77,9 +77,9 @@ const Card = ({ id, src, title, date, profile, tags, onClick }: CardInfo) => {
                   <span className="font-medium text-gray-78">{formattedDate}</span>
                 </div>
               )}
-              {!!profile && (
+              {profile && (
                 <div className="w-24 h-24 rounded-99 overflow-hidden absolute bottom-0 right-0">
-                  <img src={profile} className="w-24 h-24" alt="profileImg" />
+                  <Image src={profile} width={24} height={24} alt="profileImg" />
                 </div>
               )}
             </div>

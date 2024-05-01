@@ -8,7 +8,7 @@ import Image from 'next/image';
 import Button from '../common/button';
 import Modal from '../common/modal';
 import Input, { InputForm } from '../common/input';
-import InitialImage from '../common/navigation/InitialImage';
+import InitialImage from '../common/navigation/ProfileImage';
 
 interface InviteModalProps {
   openModal: boolean;

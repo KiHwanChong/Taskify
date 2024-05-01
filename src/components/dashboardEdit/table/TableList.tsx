@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { ReactNode } from 'react';
 import crown from '@/public/assets/icon/crown.svg';
-import InitialImage from '../../common/navigation/InitialImage';
+import InitialImage from '../../common/navigation/ProfileImage';
 
 interface TableListProps {
   src?: string;

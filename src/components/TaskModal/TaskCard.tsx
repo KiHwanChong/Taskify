@@ -13,6 +13,7 @@ import ModalPortal from '../common/modalPortal';
 import EditTask from './EditTask';
 import Comments from './Comments';
 import DeleteTask from './DeleteTask';
+import ProfileImage from '../common/navigation/ProfileImage';
 
 interface ModalProps {
   openModal: boolean;
@@ -169,11 +170,7 @@ export const TaskCard = ({ openModal, handleModalClose, cardId }: TaskModalProps
                   <span className="text-12 font-semibold">담당자</span>
                   <div className="flex flex-row justify-start content-center gap-8">
                     <div className="w-34 h-34 overflow-hidden rounded-99">
-                      <img
-                        className="w-34 h-34"
-                        src={cardData?.assignee?.profileImageUrl || defaultProfile}
-                        alt="profile"
-                      />
+                      <ProfileImage src={cardData?.assignee?.profileImageUrl} nickname={cardData?.assignee?.nickname} />
                     </div>
                     <span className="text-14 font-normal content-center">{cardData?.assignee?.nickname}</span>
                   </div>
