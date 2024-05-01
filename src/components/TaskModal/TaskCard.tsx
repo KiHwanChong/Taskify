@@ -5,7 +5,6 @@ import instance from '@/src/util/axios';
 import useModal from '@/src/hooks/useModal';
 import more from '@/public/assets/icon/moreVert.svg';
 import exit from '@/public/assets/icon/close.svg';
-import defaultProfile from '@/public/assets/chip/ellipseDefault.svg';
 import { useColumnList, Column } from '@/src/util/zustand';
 import Modal from '../common/modal';
 import Chip from '../common/chip';
