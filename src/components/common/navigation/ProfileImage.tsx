@@ -10,7 +10,7 @@ type ProfileImageProps = {
 const ProfileImage = ({ nickname, className, src }: ProfileImageProps) => {
   if (src) {
     return (
-      <div className="w-30 h-30 relative">
+      <div className="w-30 h-30 relative flex-shrink-0">
         <Image
           src={src}
           layout="fill"
@@ -28,7 +28,7 @@ const ProfileImage = ({ nickname, className, src }: ProfileImageProps) => {
     return (
       <div
         className={twMerge(
-          'w-30 h-30 border-2 rounded-99 bg-blue-bg flex items-center justify-center text-blue',
+          'w-30 h-30 flex-shrink-0 border-2 rounded-99 bg-blue-bg flex items-center justify-center text-blue',
           className,
         )}
       >

@@ -1,7 +1,7 @@
 import { deleteComment, putComment } from '@/src/pages/api/comments';
 import { format } from 'date-fns';
-import Image from 'next/image';
 import { ChangeEventHandler, Dispatch, MouseEventHandler, SetStateAction, useState } from 'react';
+import ProfileImage from '../common/navigation/ProfileImage';
 
 interface Props {
   id: number;
@@ -48,25 +48,17 @@ const Reply = ({
   };
 
   return (
-    <div className="flex flex-row gap-8 w-full">
-      {!!profile && (
-        <div>
-          <Image src={profile} width={34} height={34} alt="profile" className="content-center rounded-99" />
-        </div>
-      )}
-      <div className="flex flex-col gap-4 w-full">
-        <div className="flex flex-row gap-8">
-          <div className="text-14 font-semibold">{name}</div>
-          <div className="text-12 font-normal text-gray-9f">{formattedDate}</div>
+    <div className="flex gap-8">
+      <ProfileImage src={profile} nickname={name} className="flex-shrink-0" />
+      <div className="flex flex-col gap-4">
+        <div className="flex gap-8">
+          <p className="text-14 font-semibold">{name}</p>
+          <p className="text-12 font-normal text-gray-9f">{formattedDate}</p>
         </div>
         {currentEditing === id ? (
-          <div className="w-full">
-            <div className="w-full max-h-160 h-fit p-16 border-1 border-gray-d9 rounded-6 focus-within:border-violet">
-              <textarea
-                className="resize-none outline-none w-full h-full"
-                value={replyValue}
-                onChange={handleReplyChange}
-              />
+          <div className="">
+            <div className="p-16 border-1 border-gray-d9 rounded-6 focus-within:border-violet">
+              <textarea className="resize-none outline-none " value={replyValue} onChange={handleReplyChange} />
               <div className="flex flex-row justify-end gap-4 mt-4">
                 <button
                   className="text-12 border rounded-6 border-gray-df px-31 py-6 bg-white text-black"
@@ -87,7 +79,7 @@ const Reply = ({
           </div>
         ) : (
           <>
-            <div className="text-14 font-normal">{content}</div>
+            <div className="text-14 font-normal whitespace-pre-wrap">{content}</div>
             <div className="flex flex-row gap-12 text-12 text-gray-9f">
               <button className="underline" onClick={handleEditCommentClick}>
                 수정

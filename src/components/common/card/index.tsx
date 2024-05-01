@@ -4,6 +4,7 @@ import { useCardId } from '@/src/util/zustand';
 import { MouseEventHandler, useState, useEffect } from 'react';
 import calender from '@/public/assets/icon/calendar.svg';
 import Chip from '../chip';
+import ProfileImage from '../navigation/ProfileImage';
 
 interface CardInfo {
   id: number;
@@ -77,11 +78,7 @@ const Card = ({ id, src, title, date, profile, tags, onClick }: CardInfo) => {
                   <span className="font-medium text-gray-78">{formattedDate}</span>
                 </div>
               )}
-              {profile && (
-                <div className="w-24 h-24 rounded-99 overflow-hidden absolute bottom-0 right-0">
-                  <Image src={profile} layout="fill" objectFit="cover" objectPosition="top" alt="profileImg" />
-                </div>
-              )}
+              {profile && <ProfileImage src={profile} />}
             </div>
           </div>
         </div>
