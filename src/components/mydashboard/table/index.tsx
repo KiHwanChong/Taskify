@@ -24,7 +24,6 @@ const InvitationTable = () => {
       await putInvitation(invitationId, accept);
       removeInvitation(invitationId);
       const res = await instance.get('/dashboards?navigationMethod=pagination&page=1&size=5');
-      console.log(res.data);
       setMyDashboardList(res.data.dashboards);
       handleLoadDashboardList(1);
     } catch (error) {

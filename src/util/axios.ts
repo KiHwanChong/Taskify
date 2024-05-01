@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'https://sp-taskify-api.vercel.app/4-13/',
+  baseURL: process.env.NEXT_PUBLIC_TASKIFY_API_BASE_URL,
 });
 
 const getToken = () => {
