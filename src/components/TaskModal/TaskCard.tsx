@@ -1,11 +1,11 @@
 import Image from 'next/image';
-import { format } from 'date-fns';
+import { format, set } from 'date-fns';
 import { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import instance from '@/src/util/axios';
 import useModal from '@/src/hooks/useModal';
 import more from '@/public/assets/icon/moreVert.svg';
 import exit from '@/public/assets/icon/close.svg';
-import { useColumnList, Column } from '@/src/util/zustand';
+import { useColumnList, Column, useCardId } from '@/src/util/zustand';
 import Modal from '../common/modal';
 import Chip from '../common/chip';
 import ModalPortal from '../common/modalPortal';
@@ -17,10 +17,6 @@ import ProfileImage from '../common/navigation/ProfileImage';
 interface ModalProps {
   openModal: boolean;
   handleModalClose: () => void;
-}
-
-interface TaskModalProps extends ModalProps {
-  cardId: number;
 }
 
 export interface TaskData {
@@ -42,7 +38,7 @@ export interface TaskData {
   updatedAt: string;
 }
 
-export const TaskCard = ({ openModal, handleModalClose, cardId }: TaskModalProps) => {
+export const TaskCard = ({ openModal, handleModalClose }: ModalProps) => {
   const {
     openModal: editTaskModal,
     handleModalClose: editTaskModalClose,
@@ -53,41 +49,39 @@ export const TaskCard = ({ openModal, handleModalClose, cardId }: TaskModalProps
     handleModalClose: deleteTaskModalClose,
     handleModalOpen: deleteTaskModalOpen,
   } = useModal();
-
+  const cardId = useCardId((state) => state.cardId);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [cardData, setCardData] = useState<TaskData>();
-  // const [isPending, setIsPending] = useState(true);
+  const [isPending, setIsPending] = useState(false);
   const [currentColumn, setCurrentColumn] = useState<Column>();
   const columnList = useColumnList((state) => state.columnList);
 
-  const getTaskData = async () => {
-    console.log(cardId);
-    try {
-      if (!cardId) return;
-      const response = await instance.get(`cards/${cardId}`);
-      setCardData(response.data);
-      setCurrentColumn(columnList.find((item) => item.id === response.data.columnId));
-    } catch {
-      console.log('error');
-    }
-  };
+  // const getTaskData = async () => {
+  //   console.log(cardId);
+  //   try {
+  //     if (!cardId) return;
+  //     const response = await instance.get(`cards/${cardId}`);
+  //     setCardData(response.data);
+  //     setCurrentColumn(columnList.find((item) => item.id === response.data.columnId));
+  //   } catch {
+  //     console.log('error');
+  //   }
+  // };
 
-  // useEffect(() => {
-  //   const getTaskData = async () => {
-  //     console.log(cardId);
-  //     try {
-  //       if (!cardId) return;
-  //       const response = await instance.get(`cards/${cardId}`);
-  //       setCardData(response.data);
-  //       setCurrentColumn(columnList.find((item) => item.id === response.data.columnId));
-  //     } catch {
-  //       console.log('error');
-  //     } finally {
-  //       // setIsPending(false);
-  //     }
-  //   };
-  //   getTaskData();
-  // }, []);
+  useEffect(() => {
+    const getTaskData = async () => {
+      setIsPending(true);
+      try {
+        const response = await instance.get(`cards/${cardId}`);
+        setCardData(response.data);
+        setCurrentColumn(columnList.find((item) => item.id === response.data.columnId));
+      } catch {
+        console.log('error');
+      }
+      setIsPending(false);
+    };
+    getTaskData();
+  }, [cardId]);
 
   const dueDate = cardData?.dueDate ? format(new Date(cardData.dueDate).toLocaleString('en-US'), 'yyyy.MM.dd') : '';
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -114,11 +108,15 @@ export const TaskCard = ({ openModal, handleModalClose, cardId }: TaskModalProps
     };
   }, []);
 
+  if (isPending) {
+    return null;
+  }
+
   if (!openModal) {
     return null;
   }
 
-  // if (!isPending && cardData)
+  // if (!isPending)
   if (cardData)
     return (
       <Modal

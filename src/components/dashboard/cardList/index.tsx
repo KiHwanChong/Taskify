@@ -11,7 +11,6 @@ const CardList = ({ columnId }: { columnId: number }) => {
   const observerRef = useRef<HTMLDivElement>(null);
 
   const { openModal: taskModal, handleModalClose: TaskModalClose, handleModalOpen: TaskModalOpen } = useModal();
-  const cardId = useCardId((state) => state.cardId);
   const { cardLists, setCardList } = useCardListStore();
   const isCardFormatted = useIsCardFormatted((state) => state.isCardFormatted);
   const setIsCardFormatted = useIsCardFormatted((state) => state.setIsCardFormatted);
@@ -88,24 +87,29 @@ const CardList = ({ columnId }: { columnId: number }) => {
       }
     };
   }, [cardList.cursorId, hasMoreItems]);
+  const setCardId = useCardId((state) => state.setCardId);
+
+  const handleCardClick = (id: number) => {
+    setCardId(id);
+    TaskModalOpen();
+  };
 
   return (
     <>
       <ModalPortal>
-        <TaskCard cardId={cardId} openModal={taskModal} handleModalClose={TaskModalClose} />
+        <TaskCard openModal={taskModal} handleModalClose={TaskModalClose} />
       </ModalPortal>
       {cardList?.cards.map((card) => {
         return (
-          <Card
-            key={card.id}
-            id={card.id}
-            src={card.imageUrl}
-            profile={card.assignee?.profileImageUrl}
-            title={card.title}
-            date={card.dueDate}
-            tags={card.tags}
-            onClick={TaskModalOpen}
-          />
+          <div key={card.id} onClick={() => handleCardClick(card.id)}>
+            <Card
+              src={card.imageUrl}
+              profile={card.assignee?.profileImageUrl}
+              title={card.title}
+              date={card.dueDate}
+              tags={card.tags}
+            />
+          </div>
         );
       })}
       <div ref={observerRef} />

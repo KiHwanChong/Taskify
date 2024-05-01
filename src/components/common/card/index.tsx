@@ -1,19 +1,17 @@
 import FormatDate from '@/src/util/dateFormat';
 import Image from 'next/image';
-import { useCardId } from '@/src/util/zustand';
-import { MouseEventHandler, useState, useEffect } from 'react';
+// import { useCardId } from '@/src/util/zustand';
+import { useState, useEffect } from 'react';
 import calender from '@/public/assets/icon/calendar.svg';
 import Chip from '../chip';
 import ProfileImage from '../navigation/ProfileImage';
 
 interface CardInfo {
-  id: number;
   src?: string;
   title: string;
   date?: string;
   profile?: string;
   tags: string[] | [];
-  onClick: MouseEventHandler<HTMLButtonElement>;
 }
 
 /**
@@ -22,8 +20,7 @@ interface CardInfo {
  * @param title: 제목 30자 이상 시 말줄임표
  * @param date: 날짜 별도의 변환 없이 string 형식으로 입력
  */
-const Card = ({ id, src, title, date, profile, tags, onClick }: CardInfo) => {
-  const setCardId = useCardId((state) => state.setCardId);
+const Card = ({ src, title, date, profile, tags }: CardInfo) => {
   const titleShort = title.length > 30 ? `${title.slice(0, 29)}...` : title;
   const formattedDate = date ? FormatDate(date) : undefined;
   const [formattedTags, setFormattedTags] = useState(tags.slice(0, 3));
@@ -43,16 +40,8 @@ const Card = ({ id, src, title, date, profile, tags, onClick }: CardInfo) => {
     };
   }, []);
 
-  const handleCardClick: MouseEventHandler<HTMLButtonElement> = (e) => {
-    setCardId(id);
-    onClick(e);
-  };
-
   return (
-    <button
-      onClick={handleCardClick}
-      className="text-left tablet:max-w-full max-w-450 rounded-6 p-16 border-1 border-gray-d9 bg-white hover:bg-violet-8%"
-    >
+    <div className="text-left tablet:max-w-full max-w-450 rounded-6 p-16 border-1 border-gray-d9 bg-white hover:bg-violet-8%">
       <div className="flex mobile:flex-col tablet:flex-row flex-col justify:start items-center gap-12">
         {src && (
           <div className="rounded-6 mobile:w-full tablet:w-90 w-full tablet:h-full mobile:h-full mobile:max-h-none">
@@ -83,7 +72,7 @@ const Card = ({ id, src, title, date, profile, tags, onClick }: CardInfo) => {
           </div>
         </div>
       </div>
-    </button>
+    </div>
   );
 };
 
