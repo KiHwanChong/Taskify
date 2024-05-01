@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { format, set } from 'date-fns';
+import { format } from 'date-fns';
 import { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import instance from '@/src/util/axios';
 import useModal from '@/src/hooks/useModal';
@@ -56,22 +56,11 @@ export const TaskCard = ({ openModal, handleModalClose }: ModalProps) => {
   const [currentColumn, setCurrentColumn] = useState<Column>();
   const columnList = useColumnList((state) => state.columnList);
 
-  // const getTaskData = async () => {
-  //   console.log(cardId);
-  //   try {
-  //     if (!cardId) return;
-  //     const response = await instance.get(`cards/${cardId}`);
-  //     setCardData(response.data);
-  //     setCurrentColumn(columnList.find((item) => item.id === response.data.columnId));
-  //   } catch {
-  //     console.log('error');
-  //   }
-  // };
-
   useEffect(() => {
     const getTaskData = async () => {
       setIsPending(true);
       try {
+        if (!cardId) return;
         const response = await instance.get(`cards/${cardId}`);
         setCardData(response.data);
         setCurrentColumn(columnList.find((item) => item.id === response.data.columnId));
