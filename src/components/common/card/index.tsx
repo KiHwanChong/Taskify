@@ -53,7 +53,7 @@ const Card = ({ id, src, title, date, profile, tags, onClick }: CardInfo) => {
       className="text-left tablet:max-w-full max-w-450 rounded-6 p-16 border-1 border-gray-d9 bg-white hover:bg-violet-8%"
     >
       <div className="flex mobile:flex-col tablet:flex-row flex-col justify:start items-center gap-12">
-        {!!src && (
+        {src && (
           <div className="rounded-6 mobile:w-full tablet:w-90 w-full tablet:h-full mobile:h-full mobile:max-h-none">
             <Image src={src} width={700} height={700} alt="Card Image" className="rounded-6" priority />
           </div>
@@ -79,7 +79,7 @@ const Card = ({ id, src, title, date, profile, tags, onClick }: CardInfo) => {
               )}
               {profile && (
                 <div className="w-24 h-24 rounded-99 overflow-hidden absolute bottom-0 right-0">
-                  <Image src={profile} width={24} height={24} alt="profileImg" />
+                  <Image src={profile} layout="fill" objectFit="cover" objectPosition="top" alt="profileImg" />
                 </div>
               )}
             </div>
