@@ -1,3 +1,4 @@
+import instance from '@/src/util/axios';
 import axios from 'axios';
 
 interface BodyProps {
@@ -8,7 +9,7 @@ interface BodyProps {
 
 const postUser = async (url: string, body: BodyProps) => {
   try {
-    const response = await axios.post(`https://sp-taskify-api.vercel.app/4-13/${url}`, body);
+    const response = await instance.post(`/${url}`, body);
     return response;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
