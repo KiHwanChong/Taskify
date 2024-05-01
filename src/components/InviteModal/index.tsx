@@ -16,9 +16,6 @@ interface InviteModalProps {
 }
 
 const InviteModal: React.FC<InviteModalProps> = ({ openModal, handleModalClose }) => {
-  if (!openModal) {
-    return null;
-  }
   const {
     register,
     getValues,
@@ -80,6 +77,10 @@ const InviteModal: React.FC<InviteModalProps> = ({ openModal, handleModalClose }
     setValue('email', value);
     clearErrors('email');
   };
+
+  if (!openModal) {
+    return null;
+  }
 
   return (
     <Modal className="w-540 mobile:w-327" openModal={openModal} handleModalClose={handleModalClose}>

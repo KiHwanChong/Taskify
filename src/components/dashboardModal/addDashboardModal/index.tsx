@@ -15,9 +15,6 @@ interface AddDashboardModalProps {
 }
 
 const AddDashboardModal: React.FC<AddDashboardModalProps> = ({ openModal, handleModalClose }) => {
-  if (!openModal) {
-    return null;
-  }
   const [selectedColor, setSelectedColor] = useState<string>('#7AC555');
   const {
     register,
@@ -44,6 +41,10 @@ const AddDashboardModal: React.FC<AddDashboardModalProps> = ({ openModal, handle
       console.error(error);
     }
   };
+
+  if (!openModal) {
+    return null;
+  }
 
   return (
     <ModalPortal>

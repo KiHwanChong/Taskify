@@ -23,10 +23,6 @@ const DeleteColumnModal: React.FC<DeleteColumnModalProps> = ({
   columnId,
   setColumnsList,
 }) => {
-  if (!openModal) {
-    return null;
-  }
-
   const deleteColumn = async () => {
     try {
       await deleteColumns(columnId);
@@ -36,6 +32,10 @@ const DeleteColumnModal: React.FC<DeleteColumnModalProps> = ({
       console.error('Error deleting column', error);
     }
   };
+
+  if (!openModal) {
+    return null;
+  }
 
   return (
     <Modal

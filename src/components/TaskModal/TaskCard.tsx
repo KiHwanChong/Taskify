@@ -43,10 +43,6 @@ export interface TaskData {
 }
 
 export const TaskCard = ({ openModal, handleModalClose, cardId }: TaskModalProps) => {
-  if (!openModal) {
-    return null;
-  }
-
   const {
     openModal: editTaskModal,
     handleModalClose: editTaskModalClose,
@@ -60,24 +56,38 @@ export const TaskCard = ({ openModal, handleModalClose, cardId }: TaskModalProps
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [cardData, setCardData] = useState<TaskData>();
-  const [isPending, setIsPending] = useState(true);
+  // const [isPending, setIsPending] = useState(true);
   const [currentColumn, setCurrentColumn] = useState<Column>();
   const columnList = useColumnList((state) => state.columnList);
 
-  useEffect(() => {
-    const getTaskData = async () => {
-      try {
-        const response = await instance.get(`cards/${cardId}`);
-        setCardData(response.data);
-        setCurrentColumn(columnList.find((item) => item.id === response.data.columnId));
-      } catch {
-        console.log('error');
-      } finally {
-        setIsPending(false);
-      }
-    };
-    getTaskData();
-  }, [editTaskModal]);
+  const getTaskData = async () => {
+    console.log(cardId);
+    try {
+      if (!cardId) return;
+      const response = await instance.get(`cards/${cardId}`);
+      setCardData(response.data);
+      setCurrentColumn(columnList.find((item) => item.id === response.data.columnId));
+    } catch {
+      console.log('error');
+    }
+  };
+
+  // useEffect(() => {
+  //   const getTaskData = async () => {
+  //     console.log(cardId);
+  //     try {
+  //       if (!cardId) return;
+  //       const response = await instance.get(`cards/${cardId}`);
+  //       setCardData(response.data);
+  //       setCurrentColumn(columnList.find((item) => item.id === response.data.columnId));
+  //     } catch {
+  //       console.log('error');
+  //     } finally {
+  //       // setIsPending(false);
+  //     }
+  //   };
+  //   getTaskData();
+  // }, []);
 
   const dueDate = cardData?.dueDate ? format(new Date(cardData.dueDate).toLocaleString('en-US'), 'yyyy.MM.dd') : '';
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -104,7 +114,12 @@ export const TaskCard = ({ openModal, handleModalClose, cardId }: TaskModalProps
     };
   }, []);
 
-  if (!isPending && cardData)
+  if (!openModal) {
+    return null;
+  }
+
+  // if (!isPending && cardData)
+  if (cardData)
     return (
       <Modal
         className="flex-shrink-0 max-h-910 h-vh overflow-y-auto mobile:w-400"
