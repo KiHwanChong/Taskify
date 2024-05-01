@@ -92,9 +92,15 @@ const Profile = () => {
             <Image src={add} width={40} height={40} alt="add icon" />
           ) : (
             <>
-              <div className="overflow-hidden">
-                <Image src={temp} layout="fill" className="rounded-6 " alt="profile image" />
-              </div>
+              <Image
+                src={temp}
+                layout="fill"
+                objectFit="cover"
+                objectPosition="top"
+                className="rounded-6 "
+                alt="profile"
+              />
+
               <button
                 onClick={handleBack}
                 className="bg-violet w-25 h-25 border rounded-full text-white absolute -top-10 -left-10"

@@ -15,7 +15,7 @@ const ProfileImage = ({ nickname, className, src }: ProfileImageProps) => {
           src={src}
           layout="fill"
           objectFit="cover"
-          objectPosition="center"
+          objectPosition="top"
           alt="profile"
           className={twMerge('border-2 rounded-99', className)}
         />
