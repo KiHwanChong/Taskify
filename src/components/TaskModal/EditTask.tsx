@@ -61,14 +61,13 @@ const EditTask: React.FC<EditTaskModalProps> = ({ openModal, handleModalClose, c
     imageUrl: cardData.imageUrl,
     dueDate: cardData.dueDate,
   });
-  // console.log(new Date(editData.dueDate));
 
   const columnList = useColumnList((state) => state.columnList);
   const setColumnList = useColumnList((state) => state.setColumnList);
   const [currentColumn, setCurrentColumn] = useState<ColumnData | undefined>({ id: editData.columnId, title: '' });
   const [isColumnSelectOpen, setIsColumnSelectOpen] = useState(false);
   const [isAssigneeOpen, setIsAssigneeOpen] = useState(false);
-  const [currentAssigneee, setCurrentAssigneee] = useState<Member>(cardData.assignee);
+  const [currentAssigneee, setCurrentAssigneee] = useState<Member>();
   const totalMembers = useTotalMembersStore((state) => state.totalMembersData);
   const setIsCardFormatted = useIsCardFormatted((state) => state.setIsCardFormatted);
   const columnRef = useRef<HTMLDivElement>(null);
