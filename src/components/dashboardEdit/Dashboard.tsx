@@ -10,7 +10,7 @@ import useModal from '@/src/hooks/useModal';
 import useInvitees from '@/src/hooks/useInvitees';
 import useMembers from '@/src/hooks/useMembers';
 import useDashboardList from '@/src/hooks/useDashboardList';
-import ColorPicker from '../common/colorpicker';
+import dynamic from 'next/dynamic';
 import Button from '../common/button';
 import Table from './table';
 import TableHeader from './table/TableHeader';
@@ -21,6 +21,8 @@ import MembersPagination from './table/MembersPagination';
 import InviteePagination from './table/InviteePagination';
 import InviteModal from '../InviteModal';
 import ModalPortal from '../common/modalPortal';
+
+const ColorPicker = dynamic(() => import('../common/colorpicker'), { ssr: false });
 
 const Dashboard = () => {
   const selectedDashboard = useDashboardListStore((state) => state.selectedDashboard);
@@ -97,12 +99,11 @@ const Dashboard = () => {
         <Table label="이름">
           {Array.isArray(members) &&
             members.map((member) => (
-              <div className="relative">
+              <div className="relative" key={member.id}>
                 <div className="absolute top-15 left-40 bg-white px-7 py-3 rounded-10 text-black opacity-0 hover:opacity-100 transition-opacity duration-200">
                   {member.email}
                 </div>
                 <TableList
-                  key={member.id}
                   src={member.profileImageUrl}
                   text={member.nickname}
                   isOwner={member.isOwner}
@@ -142,13 +143,12 @@ const Dashboard = () => {
           {invitees?.length === 0 && <p className="text-center mb-50 text-gray-400">초대된 사용자가 없습니다.</p>}
           {Array.isArray(invitees) &&
             invitees.map((invitee) => (
-              <div className="relative">
+              <div className="relative" key={invitee.id}>
                 <div className="absolute top-15 left-40 bg-white px-7 py-3 rounded-10 text-black opacity-0 hover:opacity-100 transition-opacity duration-200">
                   {invitee.invitee.email}
                 </div>
 
                 <TableList
-                  key={invitee.id}
                   text={invitee.invitee.nickname}
                   button={
                     <Button

@@ -3,11 +3,13 @@ import { useForm, FieldError } from 'react-hook-form';
 import instance from '@/src/util/axios';
 import { useRouter } from 'next/router';
 import useDashboardList from '@/src/hooks/useDashboardList';
+import dynamic from 'next/dynamic';
 import Button from '../../common/button';
 import Modal from '../../common/modal';
 import ModalPortal from '../../common/modalPortal';
-import ColorPicker from '../../common/colorpicker';
 import Input, { InputForm } from '../../common/input';
+
+const ColorPicker = dynamic(() => import('../../common/colorpicker'), { ssr: false });
 
 interface AddDashboardModalProps {
   openModal: boolean;
