@@ -1,6 +1,5 @@
 import FormatDate from '@/src/util/dateFormat';
 import Image from 'next/image';
-// import { useCardId } from '@/src/util/zustand';
 import { useState, useEffect } from 'react';
 import calender from '@/public/assets/icon/calendar.svg';
 import Chip from '../chip';

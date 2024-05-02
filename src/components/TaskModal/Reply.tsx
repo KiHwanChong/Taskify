@@ -56,24 +56,6 @@ const Reply = ({
           <p className="text-12 font-normal text-gray-9f">{formattedDate}</p>
         </div>
         {currentEditing === id ? (
-          // <div className="p-16 border-1 border-gray-d9 rounded-6 focus-within:border-violet">
-          //   <div className="flex flex-row justify-end gap-4 mt-4">
-          //     <button
-          //       className="text-12 border rounded-6 border-gray-df px-31 py-6 bg-white text-black"
-          //       onClick={handleEditCancel}
-          //     >
-          //       취소
-          //     </button>
-          //     <button
-          //       className={`text-12 border rounded-6 border-gray-df px-31 py-6 ${
-          //         content ? 'bg-white text-violet' : 'bg-gray-50 text-gray-78'
-          //       }`}
-          //       onClick={handleEditSubmit}
-          //     >
-          //       수정
-          //     </button>
-          //   </div>
-          // </div>
           <>
             <textarea
               className="resize-none text-14 font-normal w-412 border-1 rounded-6 border-gray-d9 p-16 focus:border-violet"
