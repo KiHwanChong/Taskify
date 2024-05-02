@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import useInvitees from '@/src/hooks/useInvitees';
 import { MembersData } from '@/src/util/zustand';
 import Image from 'next/image';
+import axios from 'axios';
 import Button from '../common/button';
 import Modal from '../common/modal';
 import Input, { InputForm } from '../common/input';
@@ -43,7 +44,13 @@ const InviteModal: React.FC<InviteModalProps> = ({ openModal, handleModalClose }
   useEffect(() => {
     const fetchMemberOptions = async () => {
       try {
-        const res = await instance.get(`/members?page=1&size=99&dashboardId=6074`);
+        const baseURL = process.env.NEXT_PUBLIC_TASKIFY_API_BASE_URL;
+        const MembersToken = process.env.NEXT_PUBLIC_MEMBERS_TOKEN;
+        const res = await axios.get(`${baseURL}members?page=1&size=99&dashboardId=6074`, {
+          headers: {
+            Authorization: `Bearer ${MembersToken}`,
+          },
+        });
         const members = res.data.members.slice(1);
         setMemberOptions(members);
         setFilteredOptions(members);
