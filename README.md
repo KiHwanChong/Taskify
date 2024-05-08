@@ -129,5 +129,6 @@
 
 - 닉네임, 프로필 이미지, 비밀번호를 변경할 수 있습니다.
 
-
+## Troubleshooting
+https://velog.io/@joelkh/Taskify-Troubleshooting
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=200&section=footer" />
